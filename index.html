@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tabata Timer</title>
+    <meta name="description" content="A simple, customizable, and effective Tabata interval timer for your workouts. Free to use with no ads.">
+    <link rel="icon" href="images/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tabata Timer">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/main.js" defer></script>
+</head>
+
+<body data-theme="dark">
+    <main class="container">
+        <header>
+            <div class="header-brand">
+                <img class="header-logo" id="headerLogo" src="images/logo-white.png" alt="Tabata Timer Logo">
+                <h1>Tabata Timer</h1>
+            </div>
+            <div class="header-buttons">
+                <button class="header-btn" id="soundToggle" aria-label="Toggle Sound">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 52">
+                        <path d="M 54.247 51.291 L 49.249 47.293 C 60.389 35.12 60.389 16.511 49.249 4.338 L 54.247 0.34 C 67.251 14.861 67.251 36.771 54.247 51.291 Z M 41.577 10.476 L 36.573 14.478 C 42.548 20.87 42.548 30.761 36.573 37.152 L 41.577 41.155 C 49.415 32.413 49.415 19.217 41.577 10.476 Z M 28.79 0 L 12.146 13.097 L 0 13.097 L 0 38.721 L 12.165 38.721 L 28.79 51.553 L 28.79 0 Z" />
+                    </svg>
+                </button>
+                <button class="header-btn" id="themeToggle" aria-label="Toggle Theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                        <circle cx="32.003" cy="32.005" r="16.001" />
+                        <path d="M12.001,31.997c0-2.211-1.789-4-4-4H4c-2.211,0-4,1.789-4,4s1.789,4,4,4h4C10.212,35.997,12.001,34.208,12.001,31.997z" />
+                        <path d="M12.204,46.139l-2.832,2.833c-1.563,1.562-1.563,4.094,0,5.656c1.562,1.562,4.094,1.562,5.657,0l2.833-2.832c1.562-1.562,1.562-4.095,0-5.657C16.298,44.576,13.767,44.576,12.204,46.139z" />
+                        <path d="M32.003,51.999c-2.211,0-4,1.789-4,4V60c0,2.211,1.789,4,4,4s4-1.789,4-4l-0.004-4.001C36.003,53.788,34.21,51.999,32.003,51.999z" />
+                        <path d="M51.798,46.143c-1.559-1.566-4.091-1.566-5.653-0.004s-1.562,4.095,0,5.657l2.829,2.828c1.562,1.57,4.094,1.562,5.656,0s1.566-4.09,0-5.656L51.798,46.143z" />
+                        <path d="M60.006,27.997l-4.009,0.008c-2.203-0.008-3.992,1.781-3.992,3.992c-0.008,2.211,1.789,4,3.992,4h4.001c2.219,0.008,4-1.789,4-4C64.002,29.79,62.217,27.997,60.006,27.997z" />
+                        <path d="M51.798,17.859l2.828-2.829c1.574-1.566,1.562-4.094,0-5.657c-1.559-1.567-4.09-1.567-5.652-0.004l-2.829,2.836c-1.562,1.555-1.562,4.086,0,5.649C47.699,19.426,50.239,19.418,51.798,17.859z" />
+                        <path d="M32.003,11.995c2.207,0.016,4-1.789,4-3.992v-4c0-2.219-1.789-4-4-4c-2.211-0.008-4,1.781-4,3.993l0.008,4.008C28.003,10.206,29.792,11.995,32.003,11.995z" />
+                        <path d="M12.212,17.855c1.555,1.562,4.079,1.562,5.646-0.004c1.574-1.551,1.566-4.09,0.008-5.649l-2.829-2.828c-1.57-1.571-4.094-1.559-5.657,0c-1.575,1.559-1.575,4.09-0.012,5.653L12.212,17.855z" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Config Screen -->
+        <div class="screen active visible" id="configScreen">
+            <div class="config-controls">
+                <div class="control-group">
+                    <label class="control-label">Preparation Time</label>
+                    <div class="control-input">
+                        <button class="control-btn" aria-label="Decrease Preparation Time" data-field="preparation" data-delta="-5">−</button>
+                        <div class="control-value"><span id="preparationValue">10s</span></div>
+                        <button class="control-btn" aria-label="Increase Preparation Time" data-field="preparation" data-delta="5">+</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Work Time</label>
+                    <div class="control-input">
+                        <button class="control-btn" aria-label="Decrease Work Time" data-field="work" data-delta="-5">−</button>
+                        <div class="control-value"><span id="workValue">20s</span></div>
+                        <button class="control-btn" aria-label="Increase Work Time" data-field="work" data-delta="5">+</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Rest Time</label>
+                    <div class="control-input">
+                        <button class="control-btn" aria-label="Decrease Rest Time" data-field="rest" data-delta="-5">−</button>
+                        <div class="control-value"><span id="restValue">10s</span></div>
+                        <button class="control-btn" aria-label="Increase Rest Time" data-field="rest" data-delta="5">+</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Number of Rounds</label>
+                    <div class="control-input">
+                        <button class="control-btn" aria-label="Decrease Rounds" data-field="rounds" data-delta="-1">−</button>
+                        <div class="control-value"><span id="roundsValue">8</span></div>
+                        <button class="control-btn" aria-label="Increase Rounds" data-field="rounds" data-delta="1">+</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="summary">
+                <div class="summary-text" id="summaryText"></div>
+            </div>
+
+            <button class="start-btn" onclick="startWorkout()">Start Workout</button>
+        </div>
+
+        <!-- Timer Screen -->
+        <div class="screen timer-screen" id="timerScreen">
+            <div class="timer-content">
+                <div class="phase-box">
+                    <div class="phase-label" id="phaseLabel">PREPARATION</div>
+                </div>
+
+                <div class="timer-card" id="timerCard">
+                    <div class="progress-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="progress-ring-bg" cx="50" cy="50" r="48" />
+                            <circle class="progress-ring-progress" id="progressRing" cx="50" cy="50" r="48" stroke-dasharray="301.59" stroke-dashoffset="0" />
+                        </svg>
+                    </div>
+                    <div class="timer-display" id="timerDisplay">0:10</div>
+                </div>
+
+                <div class="info-boxes">
+                    <div class="info-box">
+                        <div class="info-label">Round</div>
+                        <div class="info-value" id="roundInfo">1/8</div>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-label">Next Phase</div>
+                        <div class="info-value" id="nextPhase">Work</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timer-controls">
+                <button class="timer-btn" aria-label="Stop Workout" onclick="stopWorkout()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path d="M64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32z" />
+                    </svg>
+                </button>
+                <button class="timer-btn play-pause" id="playPauseBtn" aria-label="Play/Pause Workout" onclick="togglePause()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path d="M48 32C21.5 32 0 53.5 0 80L0 432c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48L48 32zm224 0c-26.5 0-48 21.5-48 48l0 352c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48l-64 0z" />
+                    </svg>
+                </button>
+                <button class="timer-btn" aria-label="Skip Phase" onclick="skipPhase()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3 224 96c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-118.3L52.5 440.6z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Completed Screen -->
+        <div class="screen completed-screen" id="completedScreen">
+            <div class="completed-content">
+                <div class="completed-icon">🎉</div>
+                <div class="completed-title">Workout Complete!</div>
+                <div class="completed-message">Great job! You've completed all rounds.</div>
+                <button class="start-btn" onclick="restartWorkout()">Start Again!</button>
+                <button class="secondary-btn" onclick="resetWorkout()">Back to Setup</button>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
