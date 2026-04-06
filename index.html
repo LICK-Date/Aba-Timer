@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tabata Timer</title>
+    <title>Aba Timer</title>
     <meta name="description" content="A simple, customizable, and effective Tabata interval timer for your workouts. Free to use with no ads.">
     <link rel="icon" href="images/favicon.ico" sizes="16x16 32x32 48x48">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
@@ -14,7 +14,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Tabata Timer">
     <link rel="stylesheet" href="css/styles.css">
-
     <script src="js/main.js" defer></script>
 </head>
 
@@ -23,7 +22,7 @@
         <header>
             <div class="header-brand">
                 <img class="header-logo" id="headerLogo" src="images/logo-white.png" alt="Tabata Timer Logo">
-                <h1>Tabata Timer</h1>
+                <h1>ABA Timer</h1>
             </div>
             <div class="header-buttons">
                 <button class="header-btn" id="soundToggle" aria-label="Toggle Sound">
@@ -47,60 +46,42 @@
             </div>
         </header>
 
-        <!-- Config Screen -->
         <div class="screen active visible" id="configScreen">
-            <div class="config-controls">
-                <div class="control-group">
-                    <label class="control-label">Preparation Time</label>
-                    <div class="control-input">
-                        <button class="control-btn" aria-label="Decrease Preparation Time" data-field="preparation" data-delta="-5">−</button>
-                        <div class="control-value"><span id="preparationValue">10s</span></div>
-                        <button class="control-btn" aria-label="Increase Preparation Time" data-field="preparation" data-delta="5">+</button>
+            <div class="config-layout">
+                <section class="prep-card">
+                    <label class="control-label">Ready Time</label>
+                    <div class="wide-control">
+                        <button class="adjust-btn wide-btn" type="button" aria-label="Decrease Ready Time" data-adjust-scope="config" data-field="preparation" data-delta="-5">-</button>
+                        <div class="wide-value" id="preparationValue">10s</div>
+                        <button class="adjust-btn wide-btn" type="button" aria-label="Increase Ready Time" data-adjust-scope="config" data-field="preparation" data-delta="5">+</button>
                     </div>
-                </div>
+                </section>
 
-                <div class="control-group">
-                    <label class="control-label">Work Time</label>
-                    <div class="control-input">
-                        <button class="control-btn" aria-label="Decrease Work Time" data-field="work" data-delta="-5">−</button>
-                        <div class="control-value"><span id="workValue">20s</span></div>
-                        <button class="control-btn" aria-label="Increase Work Time" data-field="work" data-delta="5">+</button>
-                    </div>
-                </div>
+                <section class="group-list" id="groupsList" aria-label="Exercise Groups"></section>
 
-                <div class="control-group">
-                    <label class="control-label">Rest Time</label>
-                    <div class="control-input">
-                        <button class="control-btn" aria-label="Decrease Rest Time" data-field="rest" data-delta="-5">−</button>
-                        <div class="control-value"><span id="restValue">10s</span></div>
-                        <button class="control-btn" aria-label="Increase Rest Time" data-field="rest" data-delta="5">+</button>
-                    </div>
-                </div>
+                <button class="add-group-btn" id="addGroupBtn" type="button" aria-label="Add Exercise Group">+</button>
 
-                <div class="control-group">
-                    <label class="control-label">Number of Rounds</label>
-                    <div class="control-input">
-                        <button class="control-btn" aria-label="Decrease Rounds" data-field="rounds" data-delta="-1">−</button>
-                        <div class="control-value"><span id="roundsValue">8</span></div>
-                        <button class="control-btn" aria-label="Increase Rounds" data-field="rounds" data-delta="1">+</button>
+                <section class="config-footer">
+                    <div class="rounds-card">
+                        <label class="control-label">Rounds</label>
+                        <div class="inline-control">
+                            <button class="adjust-btn mini-btn" type="button" aria-label="Decrease Rounds" data-adjust-scope="config" data-field="rounds" data-delta="-1">-</button>
+                            <div class="inline-value" id="roundsValue">2</div>
+                            <button class="adjust-btn mini-btn" type="button" aria-label="Increase Rounds" data-adjust-scope="config" data-field="rounds" data-delta="1">+</button>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="summary-text" id="summaryText"></div>
+
+                    <button class="start-btn" type="button" onclick="startWorkout()">Start HIIT</button>
+                </section>
             </div>
-
-
-
-            <div class="summary">
-                <div class="summary-text" id="summaryText"></div>
-            </div>
-
-            <button class="start-btn" onclick="startWorkout()">Start Workout</button>
         </div>
 
-        <!-- Timer Screen -->
         <div class="screen timer-screen" id="timerScreen">
             <div class="timer-content">
                 <div class="phase-box">
-                    <div class="phase-label" id="phaseLabel">PREPARATION</div>
+                    <div class="phase-label" id="phaseLabel">READY</div>
                 </div>
 
                 <div class="timer-card" id="timerCard">
@@ -116,11 +97,11 @@
                 <div class="info-boxes">
                     <div class="info-box">
                         <div class="info-label">Round</div>
-                        <div class="info-value" id="roundInfo">1/8</div>
+                        <div class="info-value" id="roundInfo">1/2</div>
                     </div>
                     <div class="info-box">
                         <div class="info-label">Next Phase</div>
-                        <div class="info-value" id="nextPhase">Work</div>
+                        <div class="info-value" id="nextPhase">Sport 1</div>
                     </div>
                 </div>
             </div>
@@ -144,14 +125,13 @@
             </div>
         </div>
 
-        <!-- Completed Screen -->
         <div class="screen completed-screen" id="completedScreen">
             <div class="completed-content">
-                <div class="completed-icon">🎉</div>
+                <div class="completed-icon">OK</div>
                 <div class="completed-title">Workout Complete!</div>
                 <div class="completed-message">Great job! You've completed all rounds.</div>
-                <button class="start-btn" onclick="restartWorkout()">Start Again!</button>
-                <button class="secondary-btn" onclick="resetWorkout()">Back to Setup</button>
+                <button class="start-btn" type="button" onclick="restartWorkout()">Start Again!</button>
+                <button class="secondary-btn" type="button" onclick="resetWorkout()">Back to Setup</button>
             </div>
         </div>
     </main>
